@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+{% for item in data %}
+<h2> {{ item['year'] }} Estimations Summary </h2>
+<div class="alert alert-warning" role="alert">
+  <h3> Projects Summary </h3>
+</div>
+{{item['summary_project'] | safe}}
+<br />
+<br />
+<div class="alert alert-danger" role="alert">
+  <h3> Employees Summary </h3>
+</div>
+{{item['summary_employee'] | safe}}
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+</head>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+      $(document).ready(function() {
+          $('#T_dataframe_PM').DataTable({paging: false, scrollY: 600});
+        });
+
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+          $('#T_dataframe_PM_color').DataTable({paging: false, scrollY: 600});
+        });
+
+</script>
+
+{% endblock %}

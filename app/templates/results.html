@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block app_content %}
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a aria-controls="personnel" aria-selected="true" class="nav-link active" data-toggle="tab" href="#personnel"
+           id="personnel-tab" role="tab">Personnel</a>
+    </li>
+    <li class="nav-item">
+        <a aria-controls="costs" aria-selected="false" class="nav-link" data-toggle="tab" href="#costs" id="costs-tab"
+           role="tab">Costs</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div aria-labelledby="personnel-tab" class="tab-pane fade in active" id="personnel" role="tabpanel">
+        </br>
+        <h2> {{ year }} Personnel Estimations </h2>
+        {{table_p | safe}}
+    </div>
+    <div aria-labelledby="costs-tab" class="tab-pane fade" id="costs" role="tabpanel">        </br>
+        <h2> {{ year }} Costs Estimations </h2>
+        {{table_c | safe}}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<head>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+</head>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
+
+<script type="text/javascript">
+      $(document).ready(function() {
+          $('#T_dataframe').DataTable({'rowsGroup': [0], paging: false});
+        });
+      $(document).ready(function() {
+          $('#T_dataframe_cost').DataTable({'rowsGroup': [0], paging: false});
+        });
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+{% if changes %}
+<h3> Changelog </h3>
+<div id="changelog">
+    <input class="search" placeholder="Search"/>
+    <br>
+    <br>
+    <ul class="list" style="list-style-type:none">
+        {% for change in changes %}
+        <li>
+            {% include '_change.html' %}
+        </li>
+        {% endfor %}
+    </ul>
+    <ul class="pagination"></ul>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+<script type="text/javascript">
+var options = {
+  valueNames: [ 'change_body' ],
+  page: 50,
+  pagination: true
+};
+
+var userList = new List('changelog', options);
+
+</script>
+
+{% endblock %}

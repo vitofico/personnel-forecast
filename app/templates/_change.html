@@ -1,0 +1,27 @@
+<p class="change_body">
+    {{moment(change.timestamp).fromNow()}}
+    <mark>{{change.author}}</mark>
+    {% if change.employee %}
+    changed the dedication of
+    <a style="font-weight:bold" href="{{ url_for('main.show_charts', year=change.year, item=change.employee)}}">{{change.employee}}</a>
+    in
+    <a style="font-weight:bold" href="{{ url_for('main.show_charts', year=change.year, item=change.project)}}">{{change.project}}</a>
+    <span style="font-weight:bold"> - {{change.month}}/{{change.year}}</span>
+    from
+    <span style="color:red">{{(change.dedication_old * 100)|round|int }}%</span>
+    to
+    <span style="color:green">{{(change.dedication_new * 100)|round|int }}%.</span>
+    {% elif change.concept %}
+    changed the cost of
+    <a style="font-weight:bold">{{change.concept}}</a>
+    in
+    <a style="font-weight:bold" href="{{ url_for('main.show_charts', year=change.year, item=change.project)}}">{{change.project}}</a>
+    <span style="font-weight:bold"> - {{change.month}}/{{change.year}}</span>
+    from
+    <span style="color:red">{{ change.cost_old }}€</span>
+    to
+    <span style="color:green">{{ change.cost_new }}€.</span>
+    {% endif %}
+    {% if change.remarks %} Motivation: {{ change.remarks }}{% endif %}
+</p>
+

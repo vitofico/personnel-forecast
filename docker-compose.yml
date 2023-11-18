@@ -1,0 +1,51 @@
+version: "3"
+services:
+  app:
+    build: .
+    container_name: nostradamus
+    restart: always
+    environment:
+      VIRTUAL_HOST: forecasts.skylife-eng.net
+      VIRTUAL_PORT: 5001
+      SECRET_KEY: 'verystrangekeytoguezz'
+      DATABASE_URL: 'mysql+mysqlconnector://${DB_USER}:${DB_PASSWORD}@db/${DATABASE}'
+      REDMINE_CONTAINER: redmine_app:3000
+      LDAP_BASE_DN: 'dc=skylife-eng,dc=net'
+      LDAP_USERNAME: 'cn=ftpadmin,ou=meta,dc=skylife-eng,dc=net'
+      LDAP_PASSWORD: 'ldap'
+      LDAP_HOST: openldap-backup
+      AVG_MONTHLY_HOURS: 140
+      ADMIN_PASS: 'nostradamus'
+#      ELASTICSEARCH_URL: elasticsearch
+    networks:
+      - backend
+      - default
+    expose:
+      - 5001
+  db:
+    image: mysql:latest
+    container_name: nostradamus-db
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - '/home/vito/nostradamus_volume/db:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: nostradamus
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+#  elasticsearch:
+#    ports:
+#      - '9200:9200'
+#      - '9300:9300'
+#    environment:
+#      - discovery.type=single-node
+#    container_name: nostradamus-elasticsearch
+#    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.6.2'
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+  backend:

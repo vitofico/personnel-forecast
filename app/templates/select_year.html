@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+
+{% if years %}
+<h2 class="display-4">Select a year to see the forecasts</h2>
+{% for year in years %}
+<a class="btn btn-primary btn-lg" href="{{ url_for('main.forecasts_results', year=year)}}" role="button">{{year}}</a>
+{% endfor %}
+<br/>
+<br/>
+<h3 class="display-4">or click on the following links to see some nice graphics!</h3>
+{% for year in years %}
+<a class="btn btn-outline btn-lg" href="{{ url_for('main.show_charts', year=year, item='None')}}"
+   role="button">{{year}}</a>
+{% endfor %}
+<hr class="my-4">
+<br/>
+{% if not current_user.is_anonymous and current_user.allowed(1) %}
+<h1 class="display-4"> Additional options </h1>
+<a class="btn btn-info" href="{{ url_for('main.get_file', filename=filename)}}">Download Forecasts </a>
+{% endif %}
+{% endif %}
+{% endblock %}
+
